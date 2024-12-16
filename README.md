@@ -1,4 +1,4 @@
-# Cross-Platform Subscription App
+# My Temporalis
 
 A monorepo-based subscription application with web (Next.js) and mobile (React Native/Expo) clients.
 

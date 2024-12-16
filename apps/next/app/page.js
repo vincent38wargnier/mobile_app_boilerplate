@@ -1,34 +1,47 @@
-import { getServerSession } from "next-auth/next"
+import Link from 'next/link'
+import FeatureCard from '@/components/features/FeatureCard'
+import { EPOCHS } from '@/lib/constants'
 
-export default async function Home() {
-  const session = await getServerSession()
-
+export default function Home() {
   return (
-    <div className="flex min-h-screen flex-col items-center justify-between p-24">
-      <div className="z-10 max-w-5xl w-full items-center justify-between font-mono text-sm">
-        <h1 className="text-4xl font-bold mb-8">
-          Welcome to Subscription App
-        </h1>
-        
-        {session ? (
-          <div>
-            <p>Signed in as {session.user.email}</p>
-            <a 
-              href="/api/auth/signout"
-              className="bg-red-500 text-white px-4 py-2 rounded mt-4 inline-block"
-            >
-              Sign out
-            </a>
+    <div className="min-h-screen bg-gradient-to-b from-gray-900 to-gray-800 text-white">
+      <header className="container mx-auto px-4 py-16 text-center">
+        <h1 className="text-5xl font-bold mb-6">MY TEMPORALIS</h1>
+        <p className="text-xl mb-8">Transcendez les époques à travers votre carrière</p>
+        <Link href="/auth/signin" className="btn-primary">
+          Commencer l'Odyssée
+        </Link>
+      </header>
+
+      <section className="bg-gray-800/50 py-16">
+        <div className="container mx-auto container-padding">
+          <h2 className="text-3xl font-bold text-center mb-12">
+            Explorez Les Grandes Époques de l'Histoire
+          </h2>
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+            {EPOCHS.map((epoch) => (
+              <FeatureCard key={epoch.title} {...epoch} />
+            ))}
           </div>
-        ) : (
-          <a 
-            href="/api/auth/signin"
-            className="bg-blue-500 text-white px-4 py-2 rounded"
-          >
-            Sign in
-          </a>
-        )}
-      </div>
+        </div>
+      </section>
+
+      <footer className="bg-gray-900 py-8">
+        <div className="container mx-auto container-padding text-center">
+          <nav className="flex justify-center space-x-6 mb-4">
+            {['cgv', 'cgu', 'privacy'].map((page) => (
+              <Link 
+                key={page}
+                href={`/legal/${page}`}
+                className="text-gray-400 hover:text-white transition-colors"
+              >
+                {page.toUpperCase()}
+              </Link>
+            ))}
+          </nav>
+          <p className="text-gray-500">© 2024 My Temporalis. Tous droits réservés.</p>
+        </div>
+      </footer>
     </div>
   )
 } 

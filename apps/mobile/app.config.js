@@ -24,5 +24,6 @@ export default {
   newArchEnabled: true,
   developmentClient: {
     silentLaunch: true
-  }
+  },
+  scheme: "com.subscription.app"
 } 

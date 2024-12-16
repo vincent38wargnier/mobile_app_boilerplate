@@ -4,10 +4,6 @@ const nextConfig = {
   experimental: {
     esmExternals: "loose"
   },
-  i18n: {
-    defaultLocale: 'en',
-    locales: ['en', 'fr', 'es'],
-  }
 }
 
 module.exports = nextConfig 
