@@ -1,0 +1,24 @@
+{
+  "name": "subscription-app",
+  "private": true,
+  "workspaces": {
+    "packages": [
+      "apps/*",
+      "shared/*"
+    ]
+  },
+  "scripts": {
+    "dev:web": "turbo run dev --filter=@subscription-app/next",
+    "dev:mobile": "turbo run dev --filter=@subscription-app/mobile",
+    "build": "turbo run build",
+    "lint": "turbo run lint",
+    "format": "prettier --write \"**/*.{js,json,md}\"",
+    "postinstall": "yarn build"
+  },
+  "devDependencies": {
+    "eslint": "^9.17.0",
+    "prettier": "^3.2.5",
+    "turbo": "^1.12.4"
+  },
+  "packageManager": "yarn@1.22.22"
+}

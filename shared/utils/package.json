@@ -1,0 +1,13 @@
+{
+  "name": "@subscription-app/utils",
+  "version": "1.0.0",
+  "private": true,
+  "main": "./src/index.js",
+  "scripts": {
+    "build": "echo 'Add build script here'"
+  },
+  "dependencies": {
+    "axios": "^1.6.7",
+    "date-fns": "^4.1.0"
+  }
+}

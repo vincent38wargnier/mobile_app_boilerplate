@@ -1,0 +1,12 @@
+{
+  "name": "@subscription-app/shared-logic",
+  "version": "1.0.0",
+  "private": true,
+  "main": "./src/index.js",
+  "scripts": {
+    "build": "echo 'Add build script here'"
+  },
+  "dependencies": {
+    "jwt-decode": "^4.0.0"
+  }
+} 
