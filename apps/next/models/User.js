@@ -1,25 +1,32 @@
 import mongoose from 'mongoose'
 
 const UserSchema = new mongoose.Schema({
+  name: {
+    type: String,
+    required: true
+  },
   email: {
     type: String,
     required: true,
     unique: true
   },
-  name: String,
   image: String,
   provider: {
     type: String,
-    enum: ['google', 'linkedin'],
     required: true
   },
-  providerId: String,
-  subscription: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Subscription'
+  providerId: {
+    type: String,
+    required: true
+  },
+  createdAt: {
+    type: Date,
+    default: Date.now
+  },
+  updatedAt: {
+    type: Date,
+    default: Date.now
   }
-}, {
-  timestamps: true
 })
 
 export default mongoose.models.User || mongoose.model('User', UserSchema) 
