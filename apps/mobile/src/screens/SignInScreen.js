@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { View, TouchableOpacity, Text, StyleSheet } from 'react-native';
+import { View, TouchableOpacity, Text, StyleSheet, Alert } from 'react-native';
 import { useGoogleAuth, useLinkedInAuth } from '../services/auth';
 import { useAuth } from '../context/AuthContext';
 
@@ -16,7 +16,10 @@ export default function SignInScreen() {
 
   useEffect(() => {
     if (linkedInResponse?.type === 'success') {
-      handleLinkedInSignIn(linkedInResponse.params);
+      handleLinkedInSignIn(linkedInResponse.authentication);
+    } else if (linkedInResponse?.type === 'error') {
+      console.error('LinkedIn Error:', linkedInResponse.error);
+      Alert.alert('Error', 'Failed to sign in with LinkedIn. Please try again.');
     }
   }, [linkedInResponse]);
 
@@ -36,27 +39,37 @@ export default function SignInScreen() {
       });
     } catch (error) {
       console.error('Error signing in with Google:', error);
+      Alert.alert('Error', 'Failed to sign in with Google. Please try again.');
     }
   };
 
-  const handleLinkedInSignIn = async (params) => {
+  const handleLinkedInSignIn = async (authentication) => {
     try {
-      const response = await fetch('https://api.linkedin.com/v2/userinfo', {
-        headers: {
-          Authorization: `Bearer ${params.access_token}`,
-        },
-      });
-      const userInfo = await response.json();
+      const userInfo = authentication.idToken;
+      console.log('LinkedIn User Info:', userInfo);
 
       await signIn({
-        id: userInfo.sub,
+        id: userInfo.id,
         email: userInfo.email,
         name: userInfo.name,
-        picture: userInfo.picture,
-        provider: 'linkedin'
+        picture: userInfo.image,
+        provider: 'linkedin',
+        role: userInfo.role,
+        subscription: userInfo.subscription
       });
     } catch (error) {
       console.error('Error signing in with LinkedIn:', error);
+      Alert.alert('Error', 'Failed to sign in with LinkedIn. Please try again.');
+    }
+  };
+
+  const handleLinkedInPress = async () => {
+    try {
+      const result = await promptLinkedInAsync();
+      console.log('LinkedIn Auth Result:', result);
+    } catch (error) {
+      console.error('LinkedIn Press Error:', error);
+      Alert.alert('Error', 'Failed to start LinkedIn sign in. Please try again.');
     }
   };
 
@@ -73,7 +86,7 @@ export default function SignInScreen() {
 
         <TouchableOpacity
           style={[styles.button, styles.linkedinButton]}
-          onPress={() => promptLinkedInAsync()}
+          onPress={handleLinkedInPress}
         >
           <Text style={[styles.buttonText, styles.linkedinButtonText]}>Sign in with LinkedIn</Text>
         </TouchableOpacity>

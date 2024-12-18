@@ -13,12 +13,19 @@
     "build": "turbo run build",
     "lint": "turbo run lint",
     "format": "prettier --write \"**/*.{js,json,md}\"",
-    "postinstall": "yarn build"
+    "android": "expo run:android",
+    "ios": "expo run:ios"
   },
   "devDependencies": {
-    "eslint": "^9.17.0",
+    "eslint": "^8.56.0",
     "prettier": "^3.2.5",
     "turbo": "^1.12.4"
   },
-  "packageManager": "yarn@1.22.22"
+  "packageManager": "yarn@1.22.22",
+  "version": "1.0.0",
+  "dependencies": {
+    "expo": "~52.0.19",
+    "react": "^18.2.0",
+    "react-native": "0.76.5"
+  }
 }

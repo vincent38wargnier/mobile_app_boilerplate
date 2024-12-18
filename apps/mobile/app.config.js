@@ -7,7 +7,10 @@ export default {
   assetBundlePatterns: ["**/*"],
   ios: {
     supportsTablet: true,
-    bundleIdentifier: "com.mytemporalis.app"
+    bundleIdentifier: "com.mytemporalis.app",
+    config: {
+      usesNonExemptEncryption: false
+    }
   },
   android: {
     adaptiveIcon: {
@@ -20,10 +23,7 @@ export default {
       projectId: "a5c8224c-319a-4c25-90e9-47d6f71cb916"
     }
   },
-  owner: "your-expo-username",
-  newArchEnabled: true,
-  developmentClient: {
-    silentLaunch: true
-  },
-  scheme: "com.mytemporalis.app"
+  owner: "vincentwargnier",
+  scheme: "mytemporalis",
+  plugins: ["expo-dev-client"]
 } 

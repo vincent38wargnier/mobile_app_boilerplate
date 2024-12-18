@@ -1,0 +1,8 @@
+{
+  "android": {
+    "package": "com.vincedu38.subscriptionapp"
+  },
+  "ios": {
+    "bundleIdentifier": "com.vincedu38.subscriptionapp"
+  }
+}
