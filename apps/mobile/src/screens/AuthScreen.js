@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { View, Text, TouchableOpacity, StyleSheet, Image } from 'react-native'
+import { View, Text, TouchableOpacity, StyleSheet } from 'react-native'
 import { useGoogleAuth, useLinkedInAuth } from '../services/auth'
 import { useAuth } from '../context/AuthContext'
 
@@ -41,27 +41,18 @@ export default function AuthScreen() {
 
   const handleLinkedInSignIn = async (params) => {
     try {
-      // Get user profile
-      const profileResponse = await fetch('https://api.linkedin.com/v2/me', {
+      const response = await fetch('https://api.linkedin.com/v2/userinfo', {
         headers: {
           Authorization: `Bearer ${params.access_token}`,
         },
       });
-      const profileData = await profileResponse.json();
-
-      // Get email address
-      const emailResponse = await fetch('https://api.linkedin.com/v2/emailAddress?q=members&projection=(elements*(handle~))', {
-        headers: {
-          Authorization: `Bearer ${params.access_token}`,
-        },
-      });
-      const emailData = await emailResponse.json();
+      const userInfo = await response.json();
 
       await signIn({
-        id: profileData.id,
-        email: emailData.elements[0]['handle~'].emailAddress,
-        name: `${profileData.localizedFirstName} ${profileData.localizedLastName}`,
-        picture: profileData.profilePicture?.['displayImage~']?.elements[0]?.identifiers[0]?.identifier,
+        id: userInfo.sub,
+        email: userInfo.email,
+        name: userInfo.name,
+        picture: userInfo.picture,
         provider: 'linkedin'
       });
     } catch (error) {
@@ -77,22 +68,14 @@ export default function AuthScreen() {
           style={[styles.button, styles.googleButton]}
           onPress={() => promptGoogleAsync()}
         >
-          <Image 
-            source={require('../../assets/google-logo.png')}
-            style={styles.buttonIcon}
-          />
-          <Text style={styles.buttonText}>Sign in with Google</Text>
+          <Text style={[styles.buttonText, styles.googleButtonText]}>Sign in with Googleeee</Text>
         </TouchableOpacity>
         
         <TouchableOpacity
           style={[styles.button, styles.linkedinButton]}
           onPress={() => promptLinkedInAsync()}
         >
-          <Image 
-            source={require('../../assets/linkedin-logo.png')}
-            style={styles.buttonIcon}
-          />
-          <Text style={styles.buttonText}>Sign in with LinkedIn</Text>
+          <Text style={[styles.buttonText, styles.linkedinButtonText]}>Sign in with LinkedIn</Text>
         </TouchableOpacity>
       </View>
     </View>
@@ -124,11 +107,7 @@ const styles = StyleSheet.create({
     padding: 12,
     borderRadius: 8,
     width: '100%',
-  },
-  buttonIcon: {
-    width: 24,
-    height: 24,
-    marginRight: 12,
+    marginBottom: 16,
   },
   googleButton: {
     backgroundColor: '#fff',

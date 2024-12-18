@@ -1,6 +1,6 @@
 import * as WebBrowser from 'expo-web-browser';
 import * as Google from 'expo-auth-session/providers/google';
-import { makeRedirectUri, useAuthRequest, useProxy } from 'expo-auth-session';
+import { makeRedirectUri, useAuthRequest, ResponseType } from 'expo-auth-session';
 import { Platform } from 'react-native';
 import Constants from 'expo-constants';
 
@@ -8,7 +8,7 @@ WebBrowser.maybeCompleteAuthSession();
 
 const LINKEDIN_AUTH_URL = 'https://www.linkedin.com/oauth/v2/authorization';
 const LINKEDIN_TOKEN_URL = 'https://www.linkedin.com/oauth/v2/accessToken';
-const useProxy = Constants.appOwnership === 'expo';
+const shouldUseProxy = Constants.appOwnership === 'expo';
 
 export const useGoogleAuth = () => {
   const clientId = Platform.OS === 'ios' 
@@ -19,7 +19,7 @@ export const useGoogleAuth = () => {
     clientId,
     redirectUri: makeRedirectUri({
       scheme: 'com.mytemporalis.app',
-      useProxy,
+      useProxy: shouldUseProxy,
     }),
   });
 
@@ -31,7 +31,7 @@ export const useGoogleAuth = () => {
 };
 
 export const useLinkedInAuth = () => {
-  const redirectUri = useProxy
+  const redirectUri = shouldUseProxy
     ? process.env.EXPO_PUBLIC_LINKEDIN_REDIRECT_URI
     : makeRedirectUri({
         scheme: 'com.mytemporalis.app',
@@ -42,10 +42,11 @@ export const useLinkedInAuth = () => {
     {
       clientId: process.env.EXPO_PUBLIC_LINKEDIN_CLIENT_ID,
       responseType: ResponseType.Code,
-      scopes: ['r_liteprofile', 'r_emailaddress'],
+      scopes: ['openid', 'profile', 'email'],
       redirectUri,
       extraParams: {
         state: 'linkedin',
+        response_type: 'code',
       },
     },
     {
@@ -57,6 +58,6 @@ export const useLinkedInAuth = () => {
   return {
     request,
     response,
-    promptAsync: () => promptAsync({ useProxy }),
+    promptAsync: () => promptAsync({ useProxy: shouldUseProxy }),
   };
 }; 
