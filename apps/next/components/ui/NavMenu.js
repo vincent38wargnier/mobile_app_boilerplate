@@ -2,18 +2,9 @@
 
 import Link from 'next/link'
 import { signOut, useSession } from 'next-auth/react'
-import { useEffect, useState } from 'react'
 
 export default function NavMenu() {
   const { data: session, status } = useSession()
-  const [mounted, setMounted] = useState(false)
-
-  useEffect(() => {
-    setMounted(true)
-  }, [])
-
-  // Don't show anything until mounted to prevent hydration mismatch
-  if (!mounted) return null
 
   return (
     <nav className="bg-gray-800 text-white">
@@ -27,7 +18,7 @@ export default function NavMenu() {
           ) : session ? (
             <>
               <Link href="/profile" className="hover:text-gray-300">
-                Profil
+                {session.user.name}
               </Link>
               <button
                 onClick={() => signOut({ 

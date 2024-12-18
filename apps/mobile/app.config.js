@@ -7,13 +7,13 @@ export default {
   assetBundlePatterns: ["**/*"],
   ios: {
     supportsTablet: true,
-    bundleIdentifier: "com.yourcompany.subscriptionapp"
+    bundleIdentifier: "com.mytemporalis.app"
   },
   android: {
     adaptiveIcon: {
       backgroundColor: "#ffffff"
     },
-    package: "com.yourcompany.subscriptionapp"
+    package: "com.mytemporalis.app"
   },
   extra: {
     eas: {
@@ -25,5 +25,5 @@ export default {
   developmentClient: {
     silentLaunch: true
   },
-  scheme: "com.subscription.app"
+  scheme: "com.mytemporalis.app"
 } 

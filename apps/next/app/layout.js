@@ -1,8 +1,8 @@
 import './globals.css'
 import { Providers } from './providers'
-import { headers } from 'next/headers'
 import { getServerSession } from 'next-auth'
 import NavMenu from '@/components/ui/NavMenu'
+import { authOptions } from './api/auth/[...nextauth]/route'
 
 export const metadata = {
   title: 'My Temporalis',
@@ -10,7 +10,7 @@ export const metadata = {
 }
 
 export default async function RootLayout({ children }) {
-  const session = await getServerSession()
+  const session = await getServerSession(authOptions)
   
   return (
     <html lang="fr">
